@@ -12,19 +12,19 @@ export default function App() {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    img.onload = () => {
-      const maxWidth = 500; // limit size for mobile
-      const scale = Math.min(maxWidth / img.width, 1);
+    const drawSketch = () => {
+      const maxWidth = 500;
+      const scale = Math.min(maxWidth / img.naturalWidth, 1);
 
-      canvas.width = img.width * scale;
-      canvas.height = img.height * scale;
+      canvas.width = img.naturalWidth * scale;
+      canvas.height = img.naturalHeight * scale;
 
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const data = imageData.data;
 
-      // Grayscale conversion
+      // Grayscale sketch effect
       for (let i = 0; i < data.length; i += 4) {
         const gray =
           0.299 * data[i] +
@@ -35,6 +35,13 @@ export default function App() {
 
       ctx.putImageData(imageData, 0, 0);
     };
+
+    // ✅ Handle cached images
+    if (img.complete) {
+      drawSketch();
+    } else {
+      img.onload = drawSketch;
+    }
   }, [showSketch]);
 
   return (
@@ -100,13 +107,16 @@ export default function App() {
         }
 
         .reveal-btn {
-          margin-top: 35px;
-          padding: 10px 18px;
-          border: 1px solid #999;
-          background: transparent;
+          display: block;
+          margin: 40px auto 0;
+          padding: 12px 28px;
+          border-radius: 6px;
+          border: 1px solid #444;
+          background: #ffffff;
+          color: #222;
           cursor: pointer;
           font-family: inherit;
-          font-size: 15px;
+          font-size: 16px;
         }
 
         .reveal-btn:hover {
@@ -175,7 +185,7 @@ export default function App() {
             <>
               <img
                 ref={imgRef}
-                src="/vyshu.jpeg"
+                src={`${import.meta.env.BASE_URL}vyshu.jpeg`}
                 alt=""
                 style={{ display: "none" }}
               />
