@@ -1,0 +1,5 @@
+#bingo place]
+kfkjwfwlkdflkwdjlkwjfpjwkjflkndvevk
+ijfoiqjfojdlkmlkdmlvel,vnlkev
+lkwfowjfwjjwfjkfjlkwfjlkjfds
+	
